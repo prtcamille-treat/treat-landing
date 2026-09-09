@@ -491,7 +491,11 @@
   .cycle-stat b { font-family: var(--font-display); font-size: 1rem; font-weight: 400; color: var(--text); }
   .cycle-stat span { font-size: 0.62rem; color: var(--text-muted); line-height: 1.25; }
 
-  .cycle-calendar { margin-top: 1.2rem; max-width: 320px; }
+  .cycle-layout { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; margin-top: 1.2rem; align-items: start; }
+  @media (max-width: 640px) { .cycle-layout { grid-template-columns: 1fr; gap: 1.6rem; } }
+  .cycle-calendar { max-width: 320px; }
+  .cycle-side { display: flex; flex-direction: column; gap: 1.1rem; padding-top: 0.1rem; }
+  .cycle-side .chip { align-self: flex-start; }
   .cycle-dow {
     display: grid; grid-template-columns: repeat(7, 1fr); text-align: center;
     font-size: 0.62rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.3rem;
@@ -502,8 +506,9 @@
     font-size: 0.7rem; color: var(--text);
   }
   .cycle-cell em { font-style: normal; position: relative; z-index: 1; }
-  .cycle-cell.is-period {
-    background: var(--tomate); color: var(--paper); border-radius: 8px; margin-inline: 1px; font-weight: 700;
+  .cycle-cell.is-period em {
+    display: flex; align-items: center; justify-content: center; width: 20px; height: 20px;
+    border: 1.5px solid var(--tomate); border-radius: 50%; color: var(--tomate-deep); font-weight: 700;
   }
   .cycle-cell.is-fertile { color: var(--aubergine); font-weight: 700; }
   .cycle-cell.is-ovulation em {
@@ -522,11 +527,10 @@
   .cycle-legend { display: flex; flex-wrap: wrap; gap: 0.3rem 0.9rem; margin-top: 1.1rem; }
   .cycle-legend span { display: flex; align-items: center; gap: 0.4em; font-size: 0.7rem; color: var(--text-muted); }
   .cycle-legend .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-  .dot-period { background: var(--tomate); }
+  .dot-period { background: transparent; border: 1.5px solid var(--tomate); }
   .dot-ovulation { background: transparent; border: 1.5px dashed var(--aubergine); }
   .dot-fertile { background: var(--aubergine); }
 
-  .rapport-gauge { margin-top: 1rem; max-width: 320px; }
   .rapport-gauge[hidden] { display: none; }
 
   .journal-summary {
@@ -973,13 +977,12 @@
         </div>
 
         <div class="journal-block">
-          <p class="field-label">Cinq repères, cinq crans : jamais plus précis que nécessaire</p>
+          <p class="field-label">Quatre repères, cinq crans : jamais plus précis que nécessaire</p>
           <div class="stepper-grid">
             <div class="stepper" data-stepper data-name="Douleur" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="2"></div>
             <div class="stepper" data-stepper data-name="Fatigue" data-color="var(--safran)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="3"></div>
             <div class="stepper" data-stepper data-name="Stress" data-color="var(--aubergine)" data-labels="Aucun,Léger,Modéré,Fort,Intense" data-default="2"></div>
             <div class="stepper" data-stepper data-name="Énergie" data-color="var(--basilic)" data-labels="Très basse,Basse,Moyenne,Bonne,Très bonne" data-default="3"></div>
-            <div class="stepper" data-stepper data-name="Douleurs SPM" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
           </div>
         </div>
 
@@ -992,34 +995,39 @@
             <div class="cycle-stat"><b>9</b><span>jour du cycle</span></div>
           </div>
 
-          <div class="cycle-calendar">
-            <div class="cycle-dow"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
-            <div class="cycle-grid">
-              <span class="cycle-cell is-period"><em>1</em></span>
-              <span class="cycle-cell is-period"><em>2</em></span>
-              <span class="cycle-cell is-period"><em>3</em></span>
-              <span class="cycle-cell is-period"><em>4</em></span>
-              <span class="cycle-cell is-period"><em>5</em></span>
-              <span class="cycle-cell"><em>6</em></span>
-              <span class="cycle-cell"><em>7</em></span>
-              <span class="cycle-cell"><em>8</em></span>
-              <span class="cycle-cell is-today"><em>9</em><span class="cycle-today-badge">Aujourd'hui</span></span>
-              <span class="cycle-cell is-fertile"><em>10</em></span>
-              <span class="cycle-cell is-fertile"><em>11</em></span>
-              <span class="cycle-cell is-fertile"><em>12</em></span>
-              <span class="cycle-cell is-fertile"><em>13</em></span>
-              <span class="cycle-cell is-ovulation"><em>14</em></span>
+          <div class="cycle-layout">
+            <div class="cycle-calendar">
+              <div class="cycle-dow"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div>
+              <div class="cycle-grid">
+                <span class="cycle-cell is-period"><em>1</em></span>
+                <span class="cycle-cell is-period"><em>2</em></span>
+                <span class="cycle-cell is-period"><em>3</em></span>
+                <span class="cycle-cell is-period"><em>4</em></span>
+                <span class="cycle-cell is-period"><em>5</em></span>
+                <span class="cycle-cell"><em>6</em></span>
+                <span class="cycle-cell"><em>7</em></span>
+                <span class="cycle-cell"><em>8</em></span>
+                <span class="cycle-cell is-today"><em>9</em><span class="cycle-today-badge">Aujourd'hui</span></span>
+                <span class="cycle-cell is-fertile"><em>10</em></span>
+                <span class="cycle-cell is-fertile"><em>11</em></span>
+                <span class="cycle-cell is-fertile"><em>12</em></span>
+                <span class="cycle-cell is-fertile"><em>13</em></span>
+                <span class="cycle-cell is-ovulation"><em>14</em></span>
+              </div>
+              <div class="cycle-legend">
+                <span><i class="dot dot-period"></i>Règles</span>
+                <span><i class="dot dot-ovulation"></i>Ovulation estimée</span>
+                <span><i class="dot dot-fertile"></i>Fenêtre de fertilité</span>
+              </div>
             </div>
-            <div class="cycle-legend">
-              <span><i class="dot dot-period"></i>Règles</span>
-              <span><i class="dot dot-ovulation"></i>Ovulation estimée</span>
-              <span><i class="dot dot-fertile"></i>Fenêtre de fertilité</span>
-            </div>
-          </div>
 
-          <button type="button" class="chip" data-rapport-toggle aria-pressed="false" style="margin-top:1rem;">Rapport aujourd'hui</button>
-          <div class="rapport-gauge" data-rapport-gauge hidden>
-            <div class="stepper" data-stepper data-name="Douleur pendant le rapport" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+            <div class="cycle-side">
+              <button type="button" class="chip" data-rapport-toggle aria-pressed="false">Rapport sexuel</button>
+              <div class="stepper" data-stepper data-name="Douleurs SPM" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+              <div class="rapport-gauge" data-rapport-gauge hidden>
+                <div class="stepper" data-stepper data-name="Douleur pendant le rapport" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+              </div>
+            </div>
           </div>
         </div>
 
