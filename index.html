@@ -480,6 +480,32 @@
   .chip:hover { border-color: var(--accent); }
   .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); font-weight: 600; }
 
+  .cycle-track-bar {
+    position: relative; height: 10px; border-radius: 999px; background: var(--bg-sunken); margin-top: 1.9rem;
+  }
+  .cycle-seg { position: absolute; top: 0; height: 100%; border-radius: 999px; }
+  .cycle-seg--period { background: var(--tomate); }
+  .cycle-seg--ovulation { background: var(--aubergine); }
+  .cycle-today-dot {
+    position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--text); box-shadow: 0 0 0 3px var(--bg); transform: translate(-50%, -50%);
+  }
+  .cycle-today-label {
+    position: absolute; bottom: calc(100% + 8px); transform: translateX(-50%);
+    font-size: 0.68rem; font-weight: 700; color: var(--text); white-space: nowrap;
+  }
+  .cycle-track-scale {
+    display: flex; justify-content: space-between; margin-top: 0.5rem;
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+  .cycle-caption { margin-top: 1rem; font-size: 0.88rem; color: var(--text); line-height: 1.5; }
+  .cycle-caption b { font-weight: 700; }
+  .cycle-legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; margin-top: 0.7rem; }
+  .cycle-legend span { display: flex; align-items: center; gap: 0.45em; font-size: 0.78rem; color: var(--text-muted); }
+  .cycle-legend .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .dot-period { background: var(--tomate); }
+  .dot-ovulation { background: var(--aubergine); }
+
   .journal-summary {
     margin-top: 1.8rem; padding: 1rem 1.2rem; border-radius: 16px; background: var(--bg-sunken);
     display: flex; flex-wrap: wrap; gap: 0.5em 1.6em; font-size: 0.88rem; color: var(--text-muted);
@@ -934,15 +960,23 @@
         </div>
 
         <div class="journal-block">
-          <p class="field-label">Ton cycle, aujourd'hui</p>
-          <div class="chip-row" data-chip-group data-chip-single>
-            <button type="button" class="chip" aria-pressed="false">Règles</button>
-            <button type="button" class="chip" aria-pressed="false">Phase folliculaire</button>
-            <button type="button" class="chip" aria-pressed="true">Ovulation</button>
-            <button type="button" class="chip" aria-pressed="false">Phase lutéale</button>
+          <p class="field-label">Ton cycle</p>
+          <div class="cycle-track">
+            <div class="cycle-track-bar">
+              <span class="cycle-seg cycle-seg--period" style="left:0%; width:18%;"></span>
+              <span class="cycle-seg cycle-seg--ovulation" style="left:39%; width:18%;"></span>
+              <span class="cycle-today-label" style="left:46%;">Aujourd'hui</span>
+              <span class="cycle-today-dot" style="left:46%;"></span>
+            </div>
+            <div class="cycle-track-scale"><span>Jour 1</span><span>Jour 28</span></div>
           </div>
-          <div class="chip-row" data-chip-group style="margin-top:0.6rem;">
-            <button type="button" class="chip" aria-pressed="false">Rapport</button>
+          <p class="cycle-caption">Jour <b>14</b> du cycle · <b>fenêtre d'ovulation</b> estimée maintenant · prochaines règles dans <b>14 jours</b>.</p>
+          <div class="cycle-legend">
+            <span><i class="dot dot-period"></i>Règles (prévues)</span>
+            <span><i class="dot dot-ovulation"></i>Fenêtre d'ovulation (estimée)</span>
+          </div>
+          <div class="chip-row" data-chip-group style="margin-top:0.9rem;">
+            <button type="button" class="chip" aria-pressed="false">Rapport aujourd'hui</button>
           </div>
         </div>
 
@@ -965,7 +999,7 @@
         </div>
 
         <div class="journal-summary" data-journal-summary>
-          Aujourd'hui : <b data-sum-mood>neutre</b> · douleur <b data-sum-pain>2/5</b> · énergie <b data-sum-energy>3/5</b> · cycle : <b data-sum-cycle>ovulation</b>
+          Aujourd'hui : <b data-sum-mood>neutre</b> · douleur <b data-sum-pain>2/5</b> · énergie <b data-sum-energy>3/5</b>
         </div>
 
       </div>
@@ -1442,11 +1476,6 @@
     summary.querySelector('[data-sum-mood]').textContent = moodWords[moodVal] || 'neutre';
     summary.querySelector('[data-sum-pain]').textContent = pain + '/5';
     summary.querySelector('[data-sum-energy]').textContent = energy + '/5';
-    var sumCycle = summary.querySelector('[data-sum-cycle]');
-    if (sumCycle) {
-      var phaseBtn = document.querySelector('#demo-journal [data-chip-single] .chip[aria-pressed="true"]');
-      sumCycle.textContent = phaseBtn ? phaseBtn.textContent.trim().toLowerCase() : 'non renseigné';
-    }
   }
 
   // ---- recipe filter ----
