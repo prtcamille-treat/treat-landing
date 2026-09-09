@@ -236,6 +236,14 @@
   }
   .nav-links a:hover { color: var(--accent-deep); }
   @media (max-width: 720px) { .nav-links { display: none; } }
+  .header-actions { display: flex; align-items: center; gap: 0.9rem; flex: none; }
+  .header-social {
+    display: flex; align-items: center; justify-content: center;
+    width: 34px; height: 34px; border-radius: 50%; color: var(--text-muted);
+    border: 1px solid var(--border-soft); flex: none; transition: color 0.15s, border-color 0.15s;
+  }
+  .header-social svg { width: 17px; height: 17px; }
+  .header-social:hover { color: var(--accent-deep); border-color: var(--accent-deep); }
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5em;
     border: none; border-radius: 999px; cursor: pointer;
@@ -757,6 +765,9 @@
   <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 3.5l7 2.6V11c0 5-3 8.3-7 9.5-4-1.2-7-4.5-7-9.5V6.1l7-2.6z"/>
   </symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.1" cy="6.9" r="1" fill="currentColor" stroke="none"/>
+  </symbol>
 </svg>
 
 <header class="site">
@@ -767,7 +778,10 @@
       <a href="#evenements" data-smooth>Événements</a>
       <a href="#histoire" data-smooth>Histoire</a>
     </nav>
-    <a class="btn btn-primary btn-sm" href="#waitlist" data-smooth>Je m'inscris</a>
+    <div class="header-actions">
+      <a class="header-social" href="https://www.instagram.com/treatyourself.care/" target="_blank" rel="noopener" aria-label="Treat sur Instagram"><svg><use href="#i-instagram"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="#waitlist" data-smooth>Je m'inscris</a>
+    </div>
   </div>
 </header>
 
@@ -1306,6 +1320,7 @@
     <nav class="footer-links">
       <a href="#confidentialite" data-smooth>Confidentialité</a>
       <a href="mailto:camille@treatyourself.care">Contact</a>
+      <a href="https://www.instagram.com/treatyourself.care/" target="_blank" rel="noopener">Instagram</a>
     </nav>
     <span class="footer-meta">Page de démonstration, pré-lancement.</span>
   </div>
