@@ -494,8 +494,10 @@
   .cycle-layout { display: grid; grid-template-columns: 320px 1fr; gap: 2rem; margin-top: 1.2rem; align-items: start; }
   @media (max-width: 640px) { .cycle-layout { grid-template-columns: 1fr; gap: 1.6rem; } }
   .cycle-calendar { max-width: 320px; }
-  .cycle-side { display: flex; flex-direction: column; gap: 1.1rem; padding-top: 0.1rem; }
-  .cycle-side .chip { align-self: flex-start; }
+  .cycle-side { display: flex; flex-direction: column; gap: 1.4rem; padding-top: 0.1rem; }
+  .reveal-field { display: flex; flex-direction: column; gap: 0.9rem; }
+  .reveal-field .chip { align-self: flex-start; }
+  .reveal-gauge[hidden] { display: none; }
   .cycle-dow {
     display: grid; grid-template-columns: repeat(7, 1fr); text-align: center;
     font-size: 0.62rem; color: var(--text-muted); font-weight: 700; margin-bottom: 0.3rem;
@@ -531,7 +533,6 @@
   .dot-ovulation { background: transparent; border: 1.5px dashed var(--aubergine); }
   .dot-fertile { background: var(--aubergine); }
 
-  .rapport-gauge[hidden] { display: none; }
 
   .journal-summary {
     margin-top: 1.8rem; padding: 1rem 1.2rem; border-radius: 16px; background: var(--bg-sunken);
@@ -1022,10 +1023,17 @@
             </div>
 
             <div class="cycle-side">
-              <button type="button" class="chip" data-rapport-toggle aria-pressed="false">Rapport sexuel</button>
-              <div class="stepper" data-stepper data-name="Douleurs SPM" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
-              <div class="rapport-gauge" data-rapport-gauge hidden>
-                <div class="stepper" data-stepper data-name="Douleur pendant le rapport" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+              <div class="reveal-field">
+                <button type="button" class="chip" data-reveal-toggle="rapport" aria-pressed="false">Un rapport sexuel à indiquer ?</button>
+                <div class="reveal-gauge" data-reveal-gauge="rapport" hidden>
+                  <div class="stepper" data-stepper data-name="Douleur pendant le rapport" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+                </div>
+              </div>
+              <div class="reveal-field">
+                <button type="button" class="chip" data-reveal-toggle="spm" aria-pressed="false">Des douleurs SPM à déclarer ?</button>
+                <div class="reveal-gauge" data-reveal-gauge="spm" hidden>
+                  <div class="stepper" data-stepper data-name="Douleurs SPM" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="1"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -1516,16 +1524,17 @@
   }
   document.querySelectorAll('[data-stepper]').forEach(buildStepper);
 
-  // ---- rapport toggle reveals a pain gauge ----
-  var rapportToggle = document.querySelector('[data-rapport-toggle]');
-  var rapportGauge = document.querySelector('[data-rapport-gauge]');
-  if (rapportToggle && rapportGauge) {
-    rapportToggle.addEventListener('click', function () {
-      var wasPressed = rapportToggle.getAttribute('aria-pressed') === 'true';
-      rapportToggle.setAttribute('aria-pressed', String(!wasPressed));
-      rapportGauge.hidden = wasPressed;
+  // ---- toggles that reveal a pain gauge below them ----
+  document.querySelectorAll('[data-reveal-toggle]').forEach(function (btn) {
+    var key = btn.getAttribute('data-reveal-toggle');
+    var gauge = document.querySelector('[data-reveal-gauge="' + key + '"]');
+    if (!gauge) return;
+    btn.addEventListener('click', function () {
+      var wasPressed = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', String(!wasPressed));
+      gauge.hidden = wasPressed;
     });
-  }
+  });
 
   function updateJournalSummary() {
     var summary = document.querySelector('[data-journal-summary]');
