@@ -424,6 +424,22 @@
   }
   .demo-caption svg { width: 16px; height: 16px; flex: none; margin-top: 0.2em; color: var(--accent); }
 
+  /* ---------- journal cards ---------- */
+  .journal-cards {
+    margin-top: clamp(2rem, 5vw, 2.8rem);
+    display: flex; flex-direction: column; gap: 1.1rem;
+  }
+  .journal-card {
+    background: var(--bg-elevated); border: 1px solid var(--border-soft);
+    border-radius: 22px; box-shadow: var(--shadow);
+    padding: clamp(1.3rem, 3.5vw, 2rem);
+  }
+  .journal-card-title {
+    font-family: var(--font-display); font-weight: 400; font-size: 1.2rem;
+    color: var(--text); margin-bottom: 1.2rem;
+  }
+  .journal-card .journal-block + .journal-block { margin-top: 1.5rem; }
+
   .programme-corps-teaser { position: relative; text-align: center; }
   .corps-tag {
     display: inline-block; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
@@ -445,30 +461,31 @@
   /* journal demo */
   .field-label { font-weight: 700; font-size: 0.98rem; margin-bottom: 0.8rem; }
   .journal-block + .journal-block { margin-top: 1.9rem; }
-  .mood-row { display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .mood-row { display: flex; gap: 0.3rem; }
   .mood-btn {
-    background: var(--bg-sunken); border: 2px solid transparent; border-radius: 18px;
-    padding: 0.75rem 0.6rem; width: 84px; display: flex; flex-direction: column; align-items: center; gap: 0.45rem;
-    cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+    flex: 1; background: transparent; border: none; border-radius: 14px;
+    padding: 0.55rem 0.25rem; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+    cursor: pointer; transition: background 0.15s ease;
   }
-  .mood-btn .emoji { font-size: 1.6rem; }
-  .mood-btn .lbl { font-size: 0.72rem; color: var(--text-muted); text-align: center; }
-  .mood-btn:hover { transform: translateY(-2px); }
-  .mood-btn[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--bg-sunken)); }
+  .mood-btn .emoji { font-size: 1.35rem; opacity: 0.4; transition: opacity 0.15s ease; }
+  .mood-btn .lbl { font-size: 0.66rem; color: var(--text-muted); text-align: center; line-height: 1.2; min-height: 2.1em; }
+  .mood-btn:hover .emoji { opacity: 0.75; }
+  .mood-btn[aria-pressed="true"] { background: color-mix(in srgb, var(--accent) 9%, transparent); }
+  .mood-btn[aria-pressed="true"] .emoji { opacity: 1; }
   .mood-btn[aria-pressed="true"] .lbl { color: var(--accent-deep); font-weight: 700; }
 
-  .stepper-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem 2rem; }
+  .field-note { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+
+  .stepper-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem 2rem; }
   @media (max-width: 620px) { .stepper-grid { grid-template-columns: 1fr; } }
-  .stepper { }
-  .stepper-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.6rem; }
-  .stepper-top .name { font-weight: 700; font-size: 0.92rem; }
-  .stepper-top .val { font-size: 0.82rem; color: var(--accent-deep); font-weight: 600; }
-  .stepper-pips { display: flex; gap: 6px; }
+  .stepper-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.45rem; }
+  .stepper-top .name { font-weight: 700; font-size: 0.88rem; }
+  .stepper-top .val { font-size: 0.8rem; color: var(--accent-deep); font-weight: 600; }
+  .stepper-pips { display: flex; gap: 5px; }
   .stepper-pip {
-    flex: 1; height: 34px; border-radius: 9px; background: var(--bg-sunken); border: none; cursor: pointer;
-    transition: background 0.15s ease, transform 0.1s ease;
+    flex: 1; height: 18px; border-radius: 6px; background: var(--bg-sunken); border: none; cursor: pointer;
+    transition: background 0.15s ease;
   }
-  .stepper-pip:hover { transform: scaleY(1.08); }
   .stepper-pip.filled { background: var(--stepper-color, var(--accent)); }
 
   .chip-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
@@ -535,7 +552,7 @@
 
 
   .journal-summary {
-    margin-top: 1.8rem; padding: 1rem 1.2rem; border-radius: 16px; background: var(--bg-sunken);
+    margin-top: 0.4rem; padding: 1rem 1.2rem; border-radius: 16px; background: var(--bg-sunken);
     display: flex; flex-wrap: wrap; gap: 0.5em 1.6em; font-size: 0.88rem; color: var(--text-muted);
   }
   .journal-summary b { color: var(--text); }
@@ -965,30 +982,32 @@
         <p class="section-lede">Pas de formulaire interminable. Juste un <b>check-up rapide</b> : ton ressenti, tes symptômes, ton cycle, ovulation, etc. Pour toi, et pour préparer tes <b>prochains rendez-vous médicaux</b> sans rien oublier de ce que tu as ressenti.</p>
       </div>
 
-      <div class="demo-shell">
-        <div class="journal-block">
-          <p class="field-label">Comment tu te sens aujourd'hui ?</p>
-          <div class="mood-row" data-mood-picker>
-            <button type="button" class="mood-btn" data-value="1" aria-pressed="false"><span class="emoji">😩</span><span class="lbl">Difficile</span></button>
-            <button type="button" class="mood-btn" data-value="2" aria-pressed="false"><span class="emoji">😔</span><span class="lbl">Pas terrible</span></button>
-            <button type="button" class="mood-btn" data-value="3" aria-pressed="true"><span class="emoji">😐</span><span class="lbl">Neutre</span></button>
-            <button type="button" class="mood-btn" data-value="4" aria-pressed="false"><span class="emoji">🙂</span><span class="lbl">Plutôt bien</span></button>
-            <button type="button" class="mood-btn" data-value="5" aria-pressed="false"><span class="emoji">😊</span><span class="lbl">Très bien</span></button>
+      <div class="journal-cards">
+        <div class="journal-card">
+          <h3 class="journal-card-title">Comment tu te sens aujourd'hui ?</h3>
+          <div class="journal-block">
+            <div class="mood-row" data-mood-picker>
+              <button type="button" class="mood-btn" data-value="1" aria-pressed="false"><span class="emoji">😩</span><span class="lbl">Difficile</span></button>
+              <button type="button" class="mood-btn" data-value="2" aria-pressed="false"><span class="emoji">😔</span><span class="lbl">Pas terrible</span></button>
+              <button type="button" class="mood-btn" data-value="3" aria-pressed="true"><span class="emoji">😐</span><span class="lbl">Neutre</span></button>
+              <button type="button" class="mood-btn" data-value="4" aria-pressed="false"><span class="emoji">🙂</span><span class="lbl">Plutôt bien</span></button>
+              <button type="button" class="mood-btn" data-value="5" aria-pressed="false"><span class="emoji">😊</span><span class="lbl">Très bien</span></button>
+            </div>
+          </div>
+
+          <div class="journal-block">
+            <p class="field-note">Quatre repères, cinq crans : jamais plus précis que nécessaire.</p>
+            <div class="stepper-grid">
+              <div class="stepper" data-stepper data-name="Douleur" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="2"></div>
+              <div class="stepper" data-stepper data-name="Fatigue" data-color="var(--safran)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="3"></div>
+              <div class="stepper" data-stepper data-name="Stress" data-color="var(--aubergine)" data-labels="Aucun,Léger,Modéré,Fort,Intense" data-default="2"></div>
+              <div class="stepper" data-stepper data-name="Énergie" data-color="var(--basilic)" data-labels="Très basse,Basse,Moyenne,Bonne,Très bonne" data-default="3"></div>
+            </div>
           </div>
         </div>
 
-        <div class="journal-block">
-          <p class="field-label">Quatre repères, cinq crans : jamais plus précis que nécessaire</p>
-          <div class="stepper-grid">
-            <div class="stepper" data-stepper data-name="Douleur" data-color="var(--tomate)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="2"></div>
-            <div class="stepper" data-stepper data-name="Fatigue" data-color="var(--safran)" data-labels="Aucune,Légère,Modérée,Forte,Intense" data-default="3"></div>
-            <div class="stepper" data-stepper data-name="Stress" data-color="var(--aubergine)" data-labels="Aucun,Léger,Modéré,Fort,Intense" data-default="2"></div>
-            <div class="stepper" data-stepper data-name="Énergie" data-color="var(--basilic)" data-labels="Très basse,Basse,Moyenne,Bonne,Très bonne" data-default="3"></div>
-          </div>
-        </div>
-
-        <div class="journal-block">
-          <p class="field-label">Ton cycle</p>
+        <div class="journal-card">
+          <h3 class="journal-card-title">Suivi de ton cycle</h3>
 
           <div class="cycle-stats">
             <div class="cycle-stat"><b>5</b><span>jours avant ovulation</span></div>
@@ -1039,22 +1058,24 @@
           </div>
         </div>
 
-        <div class="journal-block">
-          <p class="field-label">Des symptômes à noter ?</p>
-          <div class="chip-row" data-chip-group>
-            <button type="button" class="chip" aria-pressed="true">Douleurs pelviennes</button>
-            <button type="button" class="chip" aria-pressed="false">Règles très douloureuses</button>
-            <button type="button" class="chip" aria-pressed="false">Ballonnements</button>
-            <button type="button" class="chip" aria-pressed="false">Douleurs pendant les rapports</button>
-            <button type="button" class="chip" aria-pressed="false">Fatigue intense</button>
-            <button type="button" class="chip" aria-pressed="false">Troubles digestifs</button>
-            <button type="button" class="chip" aria-pressed="false">Autre</button>
+        <div class="journal-card">
+          <h3 class="journal-card-title">Des symptômes à noter ?</h3>
+          <div class="journal-block">
+            <div class="chip-row" data-chip-group>
+              <button type="button" class="chip" aria-pressed="true">Douleurs pelviennes</button>
+              <button type="button" class="chip" aria-pressed="false">Règles très douloureuses</button>
+              <button type="button" class="chip" aria-pressed="false">Ballonnements</button>
+              <button type="button" class="chip" aria-pressed="false">Douleurs pendant les rapports</button>
+              <button type="button" class="chip" aria-pressed="false">Fatigue intense</button>
+              <button type="button" class="chip" aria-pressed="false">Troubles digestifs</button>
+              <button type="button" class="chip" aria-pressed="false">Autre</button>
+            </div>
           </div>
-        </div>
 
-        <div class="journal-block">
-          <p class="field-label">Une note libre <span style="font-weight:400;color:var(--text-muted)">(optionnel)</span></p>
-          <textarea class="note-field" placeholder="Ce que tu veux garder en mémoire..." rows="2"></textarea>
+          <div class="journal-block">
+            <p class="field-label">Une note libre <span style="font-weight:400;color:var(--text-muted)">(optionnel)</span></p>
+            <textarea class="note-field" placeholder="Ce que tu veux garder en mémoire..." rows="2"></textarea>
+          </div>
         </div>
 
         <div class="journal-summary" data-journal-summary>
